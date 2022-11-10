@@ -13,22 +13,22 @@ const Home = () => {
 
   const addTask = (myTask) => {
     const newEntry = { label: myTask, done: false };
-    const newList = [...list, newEntry];
+    const newList = [...getList(), newEntry];
+    setList(newList)
     console.log(newList)
     return newList;
   };
 
   const clearList = () => {
-    const tempEntry = { label: " ", done: false };
-    const tempList = [tempEntry];
-    console.log(tempList)
-    return tempList;
+    setList([])
+    return getList();
   };
 
   const deleteTask = (index) => {
-    const editList = list.filter((task, i) => i != index);
+    const editList = getList().filter((task, i) => i != index);
     console.log(editList)
-    return(editList);
+    setList(editList)
+    return getList();
   };
 
   const [newTask, setNewTask] = useState("");
@@ -65,12 +65,14 @@ const Home = () => {
         <input type="submit" />
       </form>
       <br></br>
+      <ul className="list-unstyled">
       {list.map((task, i) => {
         return (
-          <>{
-            i == 0 ? "" : <p key={i}>{task.label} <button className="btn btn-danger" onClick={() => handleDelete(i)}>X</button></p>
-          }</>
-)})}
+          <li key={i}>
+            <p>{task.label} <button className="btn" onClick={() => handleDelete(i)}>X</button></p>
+          </li>)}
+)}
+      </ul>
       <button onClick={handleClear}>Clear list</button>
     </div>
   );
